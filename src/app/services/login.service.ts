@@ -18,4 +18,5 @@ export class LoginService {
     getLogin(login: LoginQuery): Observable<LoginResponse> {
         return this.http.post<LoginResponse>(`${this.urlLogin}`, login);
     }
+
 }

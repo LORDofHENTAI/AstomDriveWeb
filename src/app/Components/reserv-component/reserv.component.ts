@@ -116,6 +116,10 @@ export class ReservComponent implements OnInit {
     goToLogs() {
         this.router.navigate(['/logs/'])
     }
+    Logout() {
+        this.tokenService.deleteCookie()
+        this.router.navigate(['/login/'])
+    }
 }
 
 @Component({

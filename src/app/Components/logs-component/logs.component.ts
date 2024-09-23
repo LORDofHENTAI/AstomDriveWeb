@@ -44,4 +44,8 @@ export class LogsComponent implements OnInit {
     Back() {
         this.router.navigate([''])
     }
+    Logout() {
+        this.tokenService.deleteCookie()
+        this.router.navigate(['/login/'])
+    }
 }
