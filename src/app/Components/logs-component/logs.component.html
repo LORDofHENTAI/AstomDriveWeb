@@ -1,0 +1,57 @@
+<div class="control-conteiner">
+    <!-- <button mat-fab>
+        <mat-icon>add</mat-icon>
+    </button> -->
+    <mat-form-field appearance="outline">
+        <mat-label>Дата:</mat-label>
+        <input matInput [matDatepicker]="picker1" [(ngModel)]="selectedDate" (keyup.enter)="getLogs()">
+        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+    <button mat-fab (click)="getLogs()">
+        <mat-icon>event</mat-icon>
+    </button>
+    <button mat-raised-button (click)="Back()">Назад</button>
+    <button mat-raised-button [matMenuTriggerFor]="menu" class="menu-button">
+        <mat-icon>
+            arrow_drop_down
+        </mat-icon>
+        Профиль
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>Инструкция</button>
+        <button mat-menu-item>Выйти</button>
+    </mat-menu>
+</div>
+<div class="table-conteiner">
+    <table>
+        <tr>
+            <td>
+                Дата
+            </td>
+            <td>
+                Пользователь
+            </td>
+            <td>
+                Действие
+            </td>
+            <td>
+                Комментарий
+            </td>
+        </tr>
+        <tr *ngFor="let i of logsList">
+            <td>
+                {{i.actionDate| date: 'dd.mm.yyyy H:mm:ss'}}
+            </td>
+            <td>
+                {{i.user}}
+            </td>
+            <td>
+                {{i.action}}
+            </td>
+            <td>
+                {{i.comment}}
+            </td>
+        </tr>
+    </table>
+</div>

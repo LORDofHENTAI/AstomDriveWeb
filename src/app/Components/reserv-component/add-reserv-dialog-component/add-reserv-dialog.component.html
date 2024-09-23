@@ -1,0 +1,114 @@
+<div class="main">
+    <h2 mat-dialog-title>Резервирование машины</h2>
+    <mat-dialog-content class="mat-typography">
+        <!-- <mat-slider [min]="0" [max]="22" [step]="1" (change)="onInputChange($event)" [showTickMarks]="true">
+            <input matSliderStartThumb [(ngModel)]="startId">
+            <input matSliderEndThumb [(ngModel)]="endId">
+        </mat-slider>
+        <div>
+            <span *ngFor="let t of AllRows">
+                {{t.reservTime |slice:0:5}}
+            </span>
+        </div> -->
+        <!-- <form [formGroup]="inputForm" novalidate>
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Выбранное время</mat-label>
+                    <input matInput [disabled]="true">
+                </mat-form-field>
+                <div class="route-conteiner">
+                    <div formArrayName="PointA">
+                        @for(pointA of getFormsControlsPointA()["controls"]; track $index){
+                        <mat-form-field appearance="outline">
+                            <mat-label>Выезд из</mat-label>
+                            <input matInput formControlName="{{$index}}" [readonly]="true">
+                        </mat-form-field>
+                        }
+                    </div>
+                    <div formArrayName="PointB">
+                        @for(pointB of getFormsControlsPointB()["controls"]; track $index){
+                        <mat-form-field appearance="outline">
+                            <mat-label>Приезд в</mat-label>
+                            <input matInput formControlName="{{$index}}" [readonly]="disableB($index)">
+                        </mat-form-field>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="control-conteiner">
+                <button mat-raised-button (click)="AddNewPoint()">Добавить маршрут</button>
+                <button mat-raised-button (click)="DeletePoint()">Удалить последний маршрут</button>
+                <button mat-raised-button (click)="AddEndPoint()">Завершить маршрут</button>
+            </div>
+        </form> -->
+        <div class="control-conteiner">
+            <div class="control-box">
+                <mat-form-field appearance="outline">
+                    <mat-label>Время выезда</mat-label>
+                    <mat-select [(ngModel)]="startTime">
+                        <mat-option *ngFor="let s of AllRows" [value]="s.reservTime"
+                            [ngClass]="{'blockedTime': s.access == 'false', 'selectedTime': selectedRow.reservTime == s.reservTime, 'usingTime': s.access == 'block'}">
+                            {{s.reservTime}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Время приезда</mat-label>
+                    <mat-select [(ngModel)]="endTime">
+                        <mat-option *ngFor="let s of AllRows" [value]="s.reservTime"
+                            [ngClass]="{'blockedTime': s.access == 'false', 'selectedTime': selectedRow.reservTime == s.reservTime, 'usingTime': s.access == 'block'}">
+                            {{s.reservTime}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="control-box">
+                <mat-form-field appearance="outline">
+                    <mat-label>Выезд из</mat-label>
+                    <input matInput [(ngModel)]="pointA" readonly>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Приезд в</mat-label>
+                    <input matInput [(ngModel)]="pointB">
+                </mat-form-field>
+            </div>
+            <button mat-raised-button (click)="AddNewPoint()" [disabled]="disableRoute()">
+                Добавить маршрут
+            </button>
+            <button mat-raised-button (click)="DeletePoint()" [disabled]="selectedRoute.length == 0">
+                Удалить последний маршрут
+            </button>
+            <button mat-raised-button (click)="AddEndPoint()" [disabled]="disableEndRoute()">Завершить маршрут</button>
+            <button mat-raised-button [disabled]="BlockReserv()" (click)="ReservCar()" *ngIf="!data.myRoute">
+                Забронировать
+            </button>
+            <!-- <button mat-raised-button [disabled]="BlockReserv()" (click)="UpdateReservCar()" *ngIf="data.myRoute">
+                Сохранить изменения
+            </button> -->
+        </div>
+        <div class="table-conteiner">
+            <table>
+                <tr>
+                    <td *ngFor="let h of tableHeader">
+                        {{h}}
+                    </td>
+                </tr>
+                <tr *ngFor="let i of selectedRoute">
+                    <td>
+                        {{i.time}}
+                    </td>
+                    <td>
+                        {{i.pointA}}
+                    </td>
+                    <td>
+                        {{i.pointB}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button mat-dialog-close>Отменить</button>
+        <!-- <button mat-button cdkFocusInitial>Install</button> -->
+    </mat-dialog-actions>
+</div>
