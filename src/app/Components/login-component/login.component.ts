@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { LoginQuery } from '../../models/login-models/login-query';
 import { LoginResponse } from '../../models/login-models/login-response';
 import { MaterialModule } from '../../material.module';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -23,7 +24,8 @@ export class LoginComponent {
     private loginService: LoginService,
     private router: Router,
     private tokenService: TokenService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private dialog: MatDialog
   ) { }
   isLoginUser = false;
   inputType: string = 'password'
@@ -35,25 +37,35 @@ export class LoginComponent {
   login: string
   ngOnInit(): void {
     if (this.tokenService.getToken()) {
-      this.router.navigate(['']);
+      this.openSelectModeDialog()
     }
   }
 
   onClickLogin() {
-    this.loginService.getLogin(new LoginQuery(this.userForm.value.login, this.userForm.value.password)).subscribe({
-      next: response => {
-        if (this.checkResponse(response)) {
-          this.tokenService.setCookie(response);
-          this.tokenService.logEvent(true);
-          this.router.navigate(['']);
+    if (this.tokenService.getToken()) {
+      this.openSelectModeDialog()
+    } else {
+      this.loginService.getLogin(new LoginQuery(this.userForm.value.login, this.userForm.value.password)).subscribe({
+        next: response => {
+          if (this.checkResponse(response)) {
+            this.tokenService.setCookie(response);
+            this.tokenService.logEvent(true);
+            this.openSelectModeDialog()
+          }
+          else
+            this.snackbarService.openRedSnackBar("Неверный логин или пароль")
+        },
+        error: error => {
+          console.log(error);
+          this.snackbarService.openRedSnackBar()
         }
-        else
-          this.snackbarService.openRedSnackBar("Неверный логин или пароль")
-      },
-      error: error => {
-        console.log(error);
-        this.snackbarService.openRedSnackBar()
-      }
+      })
+    }
+  }
+
+  openSelectModeDialog() {
+    const dialogRef = this.dialog.open(SelectModeDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
     });
   }
 
@@ -65,5 +77,23 @@ export class LoginComponent {
         else return false;
       else return false;
     else return false;
+  }
+}
+
+@Component({
+  templateUrl: './select-mode.dialog.html',
+  styleUrl: './login.component.scss',
+  standalone: true,
+  imports: [MaterialModule, CommonModule]
+})
+export class SelectModeDialogComponent {
+  constructor(
+    private router: Router
+  ) { }
+  goToADrive() {
+    this.router.navigate(['/adrive/'])
+  }
+  goToTechReserv() {
+    this.router.navigate(['/orders/'])
   }
 }

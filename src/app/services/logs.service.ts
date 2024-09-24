@@ -13,8 +13,12 @@ export class LogsService {
         private http: HttpClient
     ) { }
     getLogsURL = environment.apiUrl + '/GetLogs/'
+    getOrderLogsURL = environment.apiUrl + '/GetOrderLogs/'
 
     GetLogs(data: TokenModel): Observable<LogsModel[]> {
         return this.http.post<LogsModel[]>(this.getLogsURL, data)
+    }
+    GetOrderLogs(data: TokenModel): Observable<LogsModel[]> {
+        return this.http.post<LogsModel[]>(this.getOrderLogsURL, data)
     }
 }

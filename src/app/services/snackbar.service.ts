@@ -26,7 +26,7 @@ export class SnackbarService {
     }
     openSnackGreenBar(message: string, action: string = "OK", className: string = 'green-snackbar') {
         this.snackBar.open(message, action, {
-            duration: 3000,
+            duration: 8000,
             verticalPosition: 'top',
             horizontalPosition: 'right',
             panelClass: [className]

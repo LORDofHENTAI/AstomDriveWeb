@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>Создание заявки</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="input-conteiner">
+        <mat-form-field appearance="outline">
+            <mat-label>Дата:</mat-label>
+            <input matInput [matDatepicker]="picker1" [(ngModel)]="selectedDate" (dateChange)="checkTimes()">
+            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Время</mat-label>
+            <mat-select [(ngModel)]='selectedTime'>
+                <mat-option [value]="t" *ngFor="let t of times"
+                    [ngClass]="{'blockedTime': timeChecker(t)}">{{t}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="input-conteiner">
+        <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Тип доставки</mat-label>
+            <mat-select [(ngModel)]='selectedType'>
+                <mat-option [value]="dt" *ngFor="let dt of deliveryTypes">{{dt}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="input-conteiner">
+        <mat-form-field appearance="outline">
+            <mat-label>Адрес загрузки:</mat-label>
+            <input matInput [(ngModel)]='dawnloadInput'>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Адрес выгрузки:</mat-label>
+            <input matInput [(ngModel)]='uploadInput'>
+        </mat-form-field>
+    </div>
+    <div class="input-conteiner">
+        <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Характеристики товара</mat-label>
+            <textarea matInput [(ngModel)]='parasmInput'></textarea>
+        </mat-form-field>
+    </div>
+    <div class="input-conteiner">
+        <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Примечение</mat-label>
+            <textarea matInput [(ngModel)]='commentInput'></textarea>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close>Отменить</button>
+    <button mat-raised-button [disabled]="createDisable()" (click)="addTechReservCar()" *ngIf="!data">Создать</button>
+    <button mat-raised-button [disabled]="createDisable()" (click)="updateTechReservCar()" *ngIf="data">Сохранить
+        изменения</button>
+</mat-dialog-actions>

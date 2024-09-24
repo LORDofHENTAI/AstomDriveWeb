@@ -1,0 +1,68 @@
+<div class="control-conteiner">
+    <!-- <button mat-fab>
+        <mat-icon>add</mat-icon>
+    </button> -->
+    <mat-form-field appearance="outline">
+        <mat-label>Дата:</mat-label>
+        <input matInput [matDatepicker]="picker1" [(ngModel)]="selectedDate" (keyup.enter)="GetReservCar()">
+        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+    <button mat-fab (click)="GetReservCar()">
+        <mat-icon>event</mat-icon>
+    </button>
+    <button mat-raised-button *ngIf="this.admin == true" (click)="goToLogs()">Журнал записей</button>
+    <button mat-raised-button [matMenuTriggerFor]="menu" class="menu-button">
+        <mat-icon>
+            arrow_drop_down
+        </mat-icon>
+        Профиль
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="goToTechReserv()">Тех.заявки</button>
+        <button mat-menu-item>Инструкция</button>
+        <button mat-menu-item (click)="Logout()">Выйти</button>
+    </mat-menu>
+</div>
+<div class="table-conteiner">
+    <table>
+        <tr>
+            <td *ngFor="let h of tableHeader">
+                {{h}}
+            </td>
+        </tr>
+        <tr *ngFor="let i of reservList" [ngClass]="{'reserv-row': i.user}"
+            (dblclick)="i.access == 'true' ? openAddDialog(i): ''">
+            <td>
+                {{i.reservTime}}
+            </td>
+            <td>
+                {{i.reservDate}}
+            </td>
+            <td>
+                {{i.user}}
+            </td>
+            <td>
+                {{i.pointA}}
+            </td>
+            <td>
+                {{i.pointB}}
+            </td>
+            <td *ngIf="showAction(i)" [attr.rowspan]='checkRowSpan(i.listId)'>
+                <!-- <button mat-raised-button [matMenuTriggerFor]="menu1">
+                    <mat-icon>
+                        arrow_drop_down
+                    </mat-icon>
+                    Действия
+                </button>
+                <mat-menu #menu1="matMenu"> -->
+                <!-- <button mat-menu-item style="color: #00006e" (click)="openUpdateDialog(i)">Изменить</button> -->
+                <button mat-raised-button style="color: red" (click)="openAgreeDialog(i.listId!)">Удалить</button>
+                <!-- </mat-menu> -->
+            </td>
+            <td *ngIf="!i.user">
+                <button mat-raised-button (click)="openAddDialog(i)">Забронировать</button>
+            </td>
+        </tr>
+    </table>
+</div>

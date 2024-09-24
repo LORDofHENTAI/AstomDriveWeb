@@ -1,16 +1,16 @@
 import { CommonModule, formatDate } from "@angular/common";
 import { Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { MaterialModule } from "../../../material.module";
+import { MaterialModule } from "../../../../material.module";
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { CarReservService } from "../../../services/car-reserv.service";
-import { TokenService } from "../../../services/token.service";
+import { CarReservService } from "../../../../services/car-reserv.service";
+import { TokenService } from "../../../../services/token.service";
 import { DialogRef } from "@angular/cdk/dialog";
-import { TokenModel } from "../../../models/token";
-import { CarReservDetailsModel } from "../../../models/car-reserv-models/car-reserv-deatails";
-import { CarReservListModel } from "../../../models/car-reserv-models/car-reserv-list";
-import { SnackbarService } from "../../../services/snackbar.service";
-import { AddCarReservModel } from "../../../models/car-reserv-models/add-car-reserv";
+import { TokenModel } from "../../../../models/token";
+import { CarReservDetailsModel } from "../../../../models/car-reserv-models/car-reserv-deatails";
+import { CarReservListModel } from "../../../../models/car-reserv-models/car-reserv-list";
+import { SnackbarService } from "../../../../services/snackbar.service";
+import { AddCarReservModel } from "../../../../models/car-reserv-models/add-car-reserv";
 
 export interface inputDialogData {
     selectedRow: CarReservListModel,
@@ -129,7 +129,7 @@ export class AddReservDialogComponent implements OnInit {
         } else {
             let startRow = this.AllRows.find(x => x.reservTime == this.startTime)
             let endRow = this.AllRows.find(x => x.reservTime == this.endTime)
-            if (endRow?.access == 'block' || endRow?.access == 'false')
+            if (endRow?.access == 'block' || endRow?.access == 'false' || startRow?.id! >= endRow?.id!)
                 return true
             return false
         }

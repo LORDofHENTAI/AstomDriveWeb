@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { MaterialModule } from "../../material.module";
+import { MaterialModule } from "../../../material.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule, formatDate, Time } from "@angular/common";
-import { CarReservListModel } from "../../models/car-reserv-models/car-reserv-list";
-import { TokenService } from "../../services/token.service";
-import { SnackbarService } from "../../services/snackbar.service";
-import { CarReservService } from "../../services/car-reserv.service";
-import { TokenModel } from "../../models/token";
+import { CarReservListModel } from "../../../models/car-reserv-models/car-reserv-list";
+import { TokenService } from "../../../services/token.service";
+import { SnackbarService } from "../../../services/snackbar.service";
+import { CarReservService } from "../../../services/car-reserv.service";
+import { TokenModel } from "../../../models/token";
 import { MatDialog } from "@angular/material/dialog";
 import { AddReservDialogComponent } from "./add-reserv-dialog-component/add-reserv-dialog.component";
-import { CarReservDetailsModel } from "../../models/car-reserv-models/car-reserv-deatails";
+import { CarReservDetailsModel } from "../../../models/car-reserv-models/car-reserv-deatails";
 import { Route, Router } from "@angular/router";
 
 export interface inputDialogData {
@@ -119,6 +119,9 @@ export class ReservComponent implements OnInit {
     Logout() {
         this.tokenService.deleteCookie()
         this.router.navigate(['/login/'])
+    }
+    goToTechReserv() {
+        this.router.navigate(['/orders/'])
     }
 }
 
