@@ -11,6 +11,10 @@ import { MatDialog } from "@angular/material/dialog";
 import { AddReservDialogComponent } from "./add-reserv-dialog-component/add-reserv-dialog.component";
 import { CarReservDetailsModel } from "../../../models/car-reserv-models/car-reserv-deatails";
 import { Route, Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environment";
+import saveAs from "file-saver";
+
 
 export interface inputDialogData {
     selectedRow: CarReservListModel,
@@ -29,7 +33,8 @@ export class ReservComponent implements OnInit {
         private tokenService: TokenService,
         private snackBarService: SnackbarService,
         private carReservService: CarReservService,
-        private router: Router
+        private router: Router,
+        private http: HttpClient
     ) { }
     readonly dialog = inject(MatDialog);
     selectedDate: Date = new Date
@@ -123,6 +128,17 @@ export class ReservComponent implements OnInit {
     goToTechReserv() {
         this.router.navigate(['/orders/'])
     }
+    getDocumentacion() {
+        this.http.get(environment.apiUrl + '/GetDocumentation/', { responseType: 'blob' }).subscribe({
+            next: result => {
+                saveAs(result, 'Документация')
+            },
+            error: error => {
+                console.log(error)
+                this.snackBarService.openRedSnackBar()
+            }
+        })
+    }
 }
 
 @Component({
@@ -134,3 +150,4 @@ export class ReservComponent implements OnInit {
 export class AgreeDialogComponent {
 
 }
+

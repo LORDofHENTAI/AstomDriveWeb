@@ -10,6 +10,9 @@ import { Router } from "@angular/router";
 import { TokenModel } from "../../../models/token";
 import { MatDialog } from "@angular/material/dialog";
 import { AddTechCarReservDialogComponent } from "./add-tech-car-reserv-dialog-component/add-tech-car-reserv-dialog.component";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environment";
+import saveAs from "file-saver";
 
 @Component({
     selector: 'app-tech-car-reserv',
@@ -24,7 +27,8 @@ export class TechCarReservComponent implements OnInit {
         private snackBarService: SnackbarService,
         private techCarService: TechCarReservService,
         private router: Router,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private http: HttpClient
     ) { }
     selectedDate: Date = new Date
     admin: boolean = false
@@ -114,5 +118,16 @@ export class TechCarReservComponent implements OnInit {
     Logout() {
         this.tokenService.deleteCookie()
         this.router.navigate(['/login/'])
+    }
+    getDocumentacion() {
+        this.http.get(environment.apiUrl + '/GetDocumentation/', { responseType: 'blob' }).subscribe({
+            next: result => {
+                saveAs(result, 'Документация')
+            },
+            error: error => {
+                console.log(error)
+                this.snackBarService.openRedSnackBar()
+            }
+        })
     }
 }

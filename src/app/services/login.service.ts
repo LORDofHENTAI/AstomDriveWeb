@@ -9,7 +9,7 @@ import { LoginQuery } from "../models/login-models/login-query";
 })
 export class LoginService {
     private urlLogin = environment.apiUrl + '/auth/'
-
+    private docURL = environment.apiUrl + '/GetDocumentation/'
 
     constructor(
         private http: HttpClient
@@ -18,5 +18,4 @@ export class LoginService {
     getLogin(login: LoginQuery): Observable<LoginResponse> {
         return this.http.post<LoginResponse>(`${this.urlLogin}`, login);
     }
-
 }

@@ -9,6 +9,9 @@ import { CarReservService } from "../../../services/car-reserv.service";
 import { Router } from "@angular/router";
 import { TokenModel } from "../../../models/token";
 import { LogsService } from "../../../services/logs.service";
+import { environment } from "../../../environment";
+import { HttpClient } from "@angular/common/http";
+import saveAs from "file-saver";
 
 @Component({
     selector: 'app-tech-car-logs',
@@ -22,7 +25,8 @@ export class TechCarLogsComponent {
         private tokenService: TokenService,
         private snackBarService: SnackbarService,
         private logsService: LogsService,
-        private router: Router
+        private router: Router,
+        private http: HttpClient
     ) { }
     selectedDate: Date = new Date
     logsList: LogsModel[]
@@ -51,5 +55,16 @@ export class TechCarLogsComponent {
     }
     goToAdrive() {
         this.router.navigate(['/adrive/'])
+    }
+    getDocumentacion() {
+        this.http.get(environment.apiUrl + '/GetDocumentation/', { responseType: 'blob' }).subscribe({
+            next: result => {
+                saveAs(result, 'Документация')
+            },
+            error: error => {
+                console.log(error)
+                this.snackBarService.openRedSnackBar()
+            }
+        })
     }
 }

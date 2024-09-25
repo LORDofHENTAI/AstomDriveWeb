@@ -8,6 +8,9 @@ import { LogsService } from "../../../services/logs.service";
 import { TokenModel } from "../../../models/token";
 import { LogsModel } from "../../../models/logs-model/logs";
 import { Router } from "@angular/router";
+import { HttpBackend, HttpClient } from "@angular/common/http";
+import { environment } from "../../../environment";
+import saveAs from "file-saver";
 
 @Component({
     selector: 'app-logs',
@@ -21,7 +24,8 @@ export class LogsComponent implements OnInit {
         private tokenService: TokenService,
         private snackBarService: SnackbarService,
         private logsService: LogsService,
-        private router: Router
+        private router: Router,
+        private http: HttpClient
     ) { }
     selectedDate: Date = new Date
     logsList: LogsModel[]
@@ -50,5 +54,16 @@ export class LogsComponent implements OnInit {
     }
     goToTechReserv() {
         this.router.navigate(['/orders/'])
+    }
+    getDocumentacion() {
+        this.http.get(environment.apiUrl + '/GetDocumentation/', { responseType: 'blob' }).subscribe({
+            next: result => {
+                saveAs(result, 'Документация')
+            },
+            error: error => {
+                console.log(error)
+                this.snackBarService.openRedSnackBar()
+            }
+        })
     }
 }

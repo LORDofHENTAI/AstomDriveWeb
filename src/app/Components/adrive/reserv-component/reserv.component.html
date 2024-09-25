@@ -20,7 +20,7 @@
     </button>
     <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="goToTechReserv()">Тех.заявки</button>
-        <button mat-menu-item>Инструкция</button>
+        <button mat-menu-item (click)="getDocumentacion()">Инструкция</button>
         <button mat-menu-item (click)="Logout()">Выйти</button>
     </mat-menu>
 </div>
@@ -57,7 +57,8 @@
                 </button>
                 <mat-menu #menu1="matMenu"> -->
                 <!-- <button mat-menu-item style="color: #00006e" (click)="openUpdateDialog(i)">Изменить</button> -->
-                <button mat-raised-button style="color: red" (click)="openAgreeDialog(i.listId!)">Удалить</button>
+                <button mat-raised-button style="color: red" (click)="openAgreeDialog(i.listId!)"
+                    *ngIf="this.login == i.user">Удалить</button>
                 <!-- </mat-menu> -->
             </td>
             <td *ngIf="!i.user">
