@@ -44,11 +44,14 @@ export class AddTechCarReservDialogComponent implements OnInit {
     commentInput: string
 
     ngOnInit(): void {
-        let i = 8
-        while (i <= 17) {
-            this.times.push(`${i}:00:00`)
-            i++
-        }
+        this.times.push(`8:00:00`)
+        this.times.push(`9:30:00`)
+        this.times.push(`11:00:00`)
+        this.times.push(`12:30:00`)
+        this.times.push(`13:00:00`)
+        this.times.push(`14:30:00`)
+        this.times.push(`16:00:00`)
+
         this.checkTimes()
         if (this.data) {
             this.selectedDate = this.data.order_date
@@ -73,6 +76,9 @@ export class AddTechCarReservDialogComponent implements OnInit {
     timeChecker(element: string): boolean {
         if (this.carReserved) {
             let car = this.carReserved.find(x => x.order_time == element)
+            console.log(element);
+            console.log(car);
+
             if (car) {
                 return true
             } else

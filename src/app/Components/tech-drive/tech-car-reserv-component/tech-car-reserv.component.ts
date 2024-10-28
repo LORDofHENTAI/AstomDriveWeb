@@ -80,7 +80,7 @@ export class TechCarReservComponent implements OnInit {
     openAddDialog() {
         let curTime = new Date
         let textCurTime = Number(formatDate(curTime, 'H', 'en-US'))
-        if (8 <= textCurTime && textCurTime <= 17) {
+        if (8 <= textCurTime && textCurTime <= 16) {
             const dialogRef = this.dialog.open(AddTechCarReservDialogComponent, {
                 width: '600px',
                 maxWidth: 'none',
